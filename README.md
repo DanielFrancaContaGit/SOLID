@@ -24,7 +24,7 @@ class Order{
     public function delete(){/*...*/}
 }
 ```
-### Certo
+### Certo:
 ```js
 class Order{
     public function calculateTotalSum(){/*...*/}
