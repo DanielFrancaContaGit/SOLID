@@ -110,10 +110,57 @@ class FolhaDePagamento{
 
  ### Uma classe derivada deve ser substituível por sua classe base.
 
-## Errado:
+### Errado:
+
+```php
+# - Sobrescrevendo um método que não faz nada...
+class Voluntario extends ContratoDeTrabalho{
+    public function remuneracao(){
+        // não faz nada
+    }
+}
+
+
+# - Lançando uma exceção inesperada...
+class MusicPlay{
+    public function play($file){
+        // toca a música   
+    }
+}
+
+class Mp3MusicPlay extends MusicPlay{
+    public function play($file){
+        if (pathinfo($file, PATHINFO_EXTENSION) !== 'mp3') {
+            throw new Exception;
+        }
+        
+        // toca a música
+    }
+}
+
+
+# - Retornando valores de tipos diferentes...
+class Auth{
+    public function checkCredentials($login, $password){
+        // faz alguma coisa
+        
+        return true;
+    }
+}
+
+class AuthApi extends Auth{
+    public function checkCredentials($login, $password){
+        // faz alguma coisa
+        
+        return ['auth' => true, 'status' => 200];
+    }
+}
+```
+
+### Certo:
 
 ```js
-class A {
+ class A {
     public function getNome(){
         echo 'Meu nome é A';
     }
@@ -135,18 +182,123 @@ function imprimeNome(A $objeto){
 imprimeNome($objeto1); // Meu nome é A
 imprimeNome($objeto2); // Meu nome é B
 ```
+***
+## Interface Segregation Principle (Princípio da Segregação da Interface)
 
-## Certo:
+ ### Uma classe não deve ser forçada a implementar interfaces e métodos que não irão utilizar.
+ 
+ ### Errado:
+ 
+ ```php
+interface Aves{
+    public function setLocalizacao($longitude, $latitude);
+    public function setAltitude($altitude);
+    public function renderizar();
+}
 
-```js
+class Papagaio implements Aves{
+    public function setLocalizacao($longitude, $latitude) {
+        //Faz alguma coisa
+    }
+    
+    public function setAltitude($altitude) {
+        //Faz alguma coisa   
+    }
+    
+    public function renderizar() {
+        //Faz alguma coisa
+    }
+}
 
+class Pinguim implements Aves{
+    public function setLocalizacao($longitude, $latitude) {
+        //Faz alguma coisa
+    }
+    
+    // A Interface Aves está forçando a Classe Pinguim a implementar esse método.
+    // Isso viola o príncipio ISP
+    public function setAltitude($altitude) {
+        //Não faz nada...  Pinguins são aves que não voam!
+    }
+    
+    public function renderizar() {
+        //Faz alguma coisa
+    }
+}
 ```
-***
-### Interface Segregation Principle (Princípio da Segregação da Interface)
+ 
+### Certo:
 
- - Uma classe não deve ser forçada a implementar interfaces e métodos que não irão utilizar.
-***
-### Dependency Inversion Principle (Princípio da inversão da dependência)
+```php
+interface Aves {
+    public function setLocalizacao($longitude, $latitude);
+    public function renderizar();
+}
 
- - Dependa de abstrações e não de implementações.
+interface AvesQueVoam extends Aves {
+    public function setAltitude($altitude);
+}
+
+class Papagaio implements AvesQueVoam {
+    public function setLocalizacao($longitude, $latitude) {
+        //Faz alguma coisa
+    }
+    
+    public function setAltitude($altitude) {
+        //Faz alguma coisa   
+    }
+    
+    public function renderizar() {
+        //Faz alguma coisa
+    }
+}
+
+class Pinguim implements Aves {
+    public function setLocalizacao($longitude, $latitude) {
+        //Faz alguma coisa
+    }
+    
+    public function renderizar() {
+        //Faz alguma coisa
+    }
+}
+``` 
+ 
+***
+## Dependency Inversion Principle (Princípio da inversão da dependência)
+
+ ### Dependa de abstrações e não de implementações.
+ 
+ ### Errado:
+ 
+ ```php
+use MySQLConnection;
+
+class PasswordReminder {
+    private $dbConnection;
+    
+    public function __construct() {       
+        $this->dbConnection = new MySQLConnection();           
+    }
+    
+    // Faz alguma coisa
+}
+```
+
+### Certo:
+
+```php
+
+use MySQLConnection;
+
+class PasswordReminder {
+    private $dbConnection;
+    
+    public function __construct(MySQLConnection $dbConnection) {       
+        $this->dbConnection = $dbConnection;           
+    }
+    
+    // Faz alguma coisa
+}
+```
  
