@@ -1,4 +1,4 @@
-# Welcome to the SOLID wiki!
+# SOLID
 
 
 ## Single Responsiblity Principle (Princípio da responsabilidade única)
