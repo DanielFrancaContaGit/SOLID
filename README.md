@@ -287,6 +287,8 @@ class PasswordReminder {
 
 ### Certo:
 
+[Explocação sobre o que é interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)
+
 ```php
 
 interface DBConnectionInterface {
