@@ -294,8 +294,7 @@ interface DBConnectionInterface {
 }
 
 class MySQLConnection implements DBConnectionInterface {
-    public function connect()
-    {
+    public function connect() {
         // ...
     }
 }
