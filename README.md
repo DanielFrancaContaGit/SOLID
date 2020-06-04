@@ -3,7 +3,7 @@
 
 ## Single Responsiblity Principle (Princípio da responsabilidade única)
 
- ### Uma classe deve ter um, e somente um motivo, para mudar.
+ ### Uma classe deve ter um, e somente um motivo, para mudar
 
 ### Errado:
 
